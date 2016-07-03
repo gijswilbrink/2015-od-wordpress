@@ -37,8 +37,8 @@ function create_post_type() {
 }
 ```
 #### The OD way
+Save this to *od/classes/class-product.php* and the autoloader will find it whenever you call it
 ```
-// Save this to od/classes/class-product.php and the autoloader will find it whenever you call it
 class Product extends PostType
 {
 	protected $label_name = 'Products';
