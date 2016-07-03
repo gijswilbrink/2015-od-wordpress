@@ -57,8 +57,9 @@ $color = get_post_meta( get_the_ID(), 'color', true ); // new meta, same hassle,
 
 ```
 #### The OD way
+If you've added your Product class in *od/classes/class-product.php*, the autoloader will find it
 ```
-$oProduct = new Product(); // occhio's autoloader will automatically load Product if it's in od/classes/class-product.php
+$oProduct = new Product();
 $post_title = $oProduct->Get('post_title'); // simple object oriented syntax
 $price = $oProduct->Get('price'); // same syntax for meta data and primary data
 $color = $oProduct->Get('color'); // no new db call, all meta fields have been loaded since first call
