@@ -51,8 +51,8 @@ class Product extends PostType
 ## Getting primary data or meta data from a post
 #### The wordpress way
 ```
-$post = get_post(23);
-setup_postdata($post);
+$post = get_post(23); // outside the wp_loop, you have to get the post
+setup_postdata($post); // and set it as the main post
 $post_title = get_the_title(); // primary data, fairly simple
 $price = get_post_meta( get_the_ID(), 'price', true ); // meta, quite a hassle
 $color = get_post_meta( get_the_ID(), 'color', true ); // new meta, same hassle, new database call
@@ -61,7 +61,7 @@ $color = get_post_meta( get_the_ID(), 'color', true ); // new meta, same hassle,
 #### The OD way
 If you've added your Product class in *od/classes/class-product.php*, the autoloader will find it
 ```
-$oProduct = new Product(23);
+$oProduct = new Product(23); // works in and outside the wp_loop
 $post_title = $oProduct->Get('post_title'); // simple object oriented syntax
 $price = $oProduct->Get('price'); // same syntax for meta data and primary data
 $color = $oProduct->Get('color'); // no new db call, all meta fields have been loaded since first call
