@@ -51,6 +51,8 @@ class Product extends PostType
 ## Getting primary data or meta data from a post
 #### The wordpress way
 ```
+$post = get_post(23);
+setup_postdata($post);
 $post_title = get_the_title(); // primary data, fairly simple
 $price = get_post_meta( get_the_ID(), 'price', true ); // meta, quite a hassle
 $color = get_post_meta( get_the_ID(), 'color', true ); // new meta, same hassle, new database call
@@ -59,27 +61,34 @@ $color = get_post_meta( get_the_ID(), 'color', true ); // new meta, same hassle,
 #### The OD way
 If you've added your Product class in *od/classes/class-product.php*, the autoloader will find it
 ```
-$oProduct = new Product();
+$oProduct = new Product(23);
 $post_title = $oProduct->Get('post_title'); // simple object oriented syntax
 $price = $oProduct->Get('price'); // same syntax for meta data and primary data
 $color = $oProduct->Get('color'); // no new db call, all meta fields have been loaded since first call
 ```
 
-## Posting data to the server
+## Posting data to the server and updating a post
 #### The wordpress way
 You create a form
 ```
 <form action="./" method="get">
 	<input type="hidden" name="action" value="save_product" />
-	<input type="text" name="title" />
+	<input type="hidden" name="id" value ="23" />
+	<input type="text" name="color" />
 	<input type="text" name="price" />
 </form>
 ```
 And you add some code to your already cluttered *functions.php*
 ```
 if($_GET['action'] == 'save_product') {
-	$title = $_GET['title'];
+	// save data
+	$color = $_GET['color'];
 	$price = $_GET['price'];
+	update_post_meta($_GET['id'], 'color', $color);
+	update_post_meta($_GET['id'], 'price', $price);
+	
+	// redirect to post
+	header('location: ' . get_permalink($_GET['id']));
 }
 ```
 #### The OD way
@@ -87,7 +96,8 @@ Same form, but add a controller
 ```
 <form action="./" method="get">
 	<input type="hidden" name="control" value="Save_Product" />
-	<input type="text" name="title" />
+	<input type="hidden" name="id" value ="23" />
+	<input type="text" name="color" />
 	<input type="text" name="price" />
 </form>
 ```
@@ -96,8 +106,15 @@ And add a file *od/classes/control/save/class-product.php*, which will automatic
 Class Control_Save_Product {
 	public function __construct()
 	{
-		$title = $_GET['title'];
-		$price = $_GET['price'];	
+		// save data
+		$color = $_GET['color'];
+		$price = $_GET['price'];
+		$oProduct = new Product($_GET['id'];
+		$oProduct->Set('color', $color);
+		$oProduct->Set('price', $price);
+		
+		// redirect to post
+		header('location: ' . $oProduct->GetPermalink());
 	}
 }
 ```
