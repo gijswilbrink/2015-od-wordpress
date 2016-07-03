@@ -30,7 +30,22 @@ function create_post_type() {
         'singular_name' => __( 'Product' )
       ),
       'public' => true,
-      'has_archive' => true,
+      'labels'              => array(
+		'name'                => _x( 'Products', 'Post Type General Name', 'domain' ),
+		'singular_name'       => _x( 'Products', 'Post Type Singular Name', 'domain' ),
+		'menu_name'           => __( 'Product', 'domain' ),
+		'parent_item_colon'   => __( 'Parent Item:', 'domain' ),
+		'all_items'           => __( 'All products', 'domain' ),
+		'view_item'           => __( 'View product', 'domain' ),
+		'add_new_item'        => __( 'New product', 'domain' ),
+		'add_new'             => __( 'Add product', 'domain' ),
+		'edit_item'           => __( 'Edit product', 'domain' ),
+		'update_item'         => __( 'Update product', 'domain' ),
+		'search_items'        => __( 'Search product', 'domain' ),
+		'not_found'           => __( 'No products found', 'domain' ),
+		'not_found_in_trash'  => __( 'No products found in the trash', 'domain' ),
+	),
+	'has_archive' => true,
     	'menu_icon' => 'dashicons-cart'
     )
   );
